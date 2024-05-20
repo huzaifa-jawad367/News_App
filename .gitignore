@@ -1,3 +1,5 @@
 data/nela-gt-2021/newsdata/test/*
 data/nela-gt-2021/newsdata/train/*
 data/nela-gt-2021/tweet/*
+data/nela-gt-2021/pdf_data_sample/*
+data/nela-gt-2021/docx_data_sample/*
