@@ -18,6 +18,9 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
                 </li>
@@ -36,15 +39,18 @@
             <p>Explore the featured articles below or use the search function to find specific news topics.</p>
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </div>
+    
 
         <h2>Featured Articles</h2>
         <div class="row">
             {% for article in articles %}
             <div class="col-md-4">
-                <div class="card mb-4">
+                <div class="card mb-4" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ article.title }}</h5>
-                        <a href="{{ article.link }}" class="btn btn-primary">Read More</a>
+                        <p class="card-text">{{ article.source }}</p>
+                        <a href="{{ article['url'] }}" class="btn btn-primary" target="_blank">Read More</a>
                     </div>
                 </div>
             </div>
