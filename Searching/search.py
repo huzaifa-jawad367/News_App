@@ -1,4 +1,3 @@
-import requests
 import pysolr
 import json
 
@@ -35,19 +34,17 @@ def add_documents():
     solr.add(documents)
     print('Documents added successfully.')
 
-# Query documents
-def query_documents():
-    results = solr.search('*:*')
-    print(f'Found {len(results)} document(s).')
-    for result in results:
-        print(f' - {result["id"]}: {result["title"]}')
+# Query Documents
+def query_documents(query):
+    solr_url = 'http://localhost:8983/solr'  # Replace with your Solr URL
+    collection_name = 'nela-2021'
+
+    solr = pysolr.Solr(f'{solr_url}/{collection_name}', always_commit=True, timeout=10)
+
+    results = solr.search("*:*", rows=10)  # Adjust 'rows' to get more or fewer results
+
+    return results
 
 if __name__ == '__main__':
-    # Step 1: Create Collection
-    create_collection()
+    query_documents('*:*')
 
-    # Step 2: Add Documents
-    add_documents()
-
-    # Step 3: Query Documents
-    query_documents()

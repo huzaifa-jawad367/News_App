@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for
 import os
 import json
 import random
+from Searching.search import query_documents
 
 app = Flask(__name__)
 
@@ -36,7 +37,19 @@ def search_page():
 def search():
     query = request.form['query']
     # Add your search functionality here
-    return f"Search results for: {query}"
+
+    results = query_documents(query)
+
+    for result in results:
+        print(f" - {result.get('id', 'No ID')}: {result.get('title', 'No title')}")
+        print(f" - {result.get('id', 'No ID')}: {result.get('url', 'No url')}")
+        # print(f"   Content: {result.get('content', 'No content')}")
+        # print(f"   Score: {result.get('score', 'No score')}")
+        print("-" * 40)
+
+        ans = {'title': result.get('title', 'No title'), 'url': result.get('url', 'No url'), 'source':result.get('source', 'No source')}
+        print("ANS: ", ans)
+    return render_template('search_results.html', results=results, q=query)
 
 if __name__ == '__main__':
     app.run(debug=True)
