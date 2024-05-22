@@ -28,9 +28,15 @@ def home():
     print(featured_articles)  # Debugging line
     return render_template("index.html", articles=featured_articles)
 
-# @app.route("/")
-# def test():
-#     return redirect(url_for('home'))
+@app.route("/search_page")
+def search_page():
+    return render_template("search.html")
+
+@app.route('/search', methods=['POST'])
+def search():
+    query = request.form['query']
+    # Add your search functionality here
+    return f"Search results for: {query}"
 
 if __name__ == '__main__':
     app.run(debug=True)

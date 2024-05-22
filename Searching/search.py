@@ -6,7 +6,7 @@ import time
 
 # Configuration
 solr_url = 'http://localhost:8983/solr'  # Replace with your Solr URL
-collection_name = 'test_collection'
+collection_name = 'nela-2021'
 
 # Initialize Solr connection
 solr = pysolr.Solr(f'{solr_url}/{collection_name}', always_commit=True, timeout=10)
