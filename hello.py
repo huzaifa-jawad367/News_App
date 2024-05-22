@@ -1,10 +1,13 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
 import os
 import json
 import random
 from Searching.search import query_documents
+import pysolr
+import secrets
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 @app.route('/')
 def index():
@@ -40,16 +43,37 @@ def search():
 
     results = query_documents(query)
 
-    for result in results:
-        print(f" - {result.get('id', 'No ID')}: {result.get('title', 'No title')}")
-        print(f" - {result.get('id', 'No ID')}: {result.get('url', 'No url')}")
-        # print(f"   Content: {result.get('content', 'No content')}")
-        # print(f"   Score: {result.get('score', 'No score')}")
-        print("-" * 40)
-
-        ans = {'title': result.get('title', 'No title'), 'url': result.get('url', 'No url'), 'source':result.get('source', 'No source')}
-        print("ANS: ", ans)
     return render_template('search_results.html', results=results, q=query)
+
+@app.route('/upload', methods=['POST'])
+def upload_article():
+    article = {
+        "id": request.form['id'],
+        "date": request.form['date'],
+        "source": request.form['source'],
+        "title": request.form['title'],
+        "content": request.form['content'],
+        "author": request.form['author'],
+        "url": request.form['url'],
+        "published": request.form['published'],
+        "published_utc": request.form['published_utc'],
+        "collection_utc": request.form['collection_utc']
+    }
+
+    print('article:', article['id'])
+    
+    solr_url = 'http://localhost:8983/solr'  # Replace with your Solr URL
+    collection_name = 'nela-2021'
+    solr = pysolr.Solr(f'{solr_url}/{collection_name}', always_commit=True, timeout=10)
+    solr.add([article])
+    # flash('Article has been successfully added!')
+    flash('Article has been successfully added!', 'success')
+    print('Article added successfully')
+    return redirect(url_for('index'))
+
+@app.route('/upload_form')
+def upload_form():
+    return render_template('update_form.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

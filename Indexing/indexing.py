@@ -51,7 +51,8 @@ def query_documents(query_string):
 
 if __name__ == '__main__':
     # create_collection()
-    add_documents('data/nela-gt-2021/newsdata/train')
+    add_documents('data/nela-gt-2021/newsdata/test')
     
-    query_string = '"Germany Drought Ends"'  # Query string for the phrase
-    query_documents(query_string)
+    
+    # query_string = '"Germany Drought Ends"'  # Query string for the phrase
+    # query_documents(query_string)
