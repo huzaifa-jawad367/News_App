@@ -5,3 +5,4 @@ data/nela-gt-2021/pdf_data_sample/*
 data/nela-gt-2021/docx_data_sample/*
 .venv/
 __pycache__/
+.env
